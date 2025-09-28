@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+sentence-transformers
+transformers
+torch                # remove or use CPU-only wheels if needed
+numpy
+pydantic
+python-multipart

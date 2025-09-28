@@ -1,0 +1,99 @@
+/* 🌐 Overall Page */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #e5ddd5;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 📦 Chat Container (Wider Telegram-like window) */
+.chat-container {
+    width: 1200px;   /* Increased width */
+    height: 750px;   /* Slightly taller */
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 📌 Header */
+.chat-header {
+    background: #0088cc;
+    color: white;
+    text-align: left;
+    padding: 18px 22px;
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.chat-header::before {
+    content: "🤖";
+    display: inline-block;
+    background: #ffffff22;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 36px;
+}
+
+/* 💬 Chat Box (Messages area is bigger now) */
+.chat-box {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
+    background: #e5ddd5;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Scrollbar */
+.chat-box::-webkit-scrollbar {
+    width: 8px;
+}
+.chat-box::-webkit-scrollbar-thumb {
+    background: #cccccc;
+    border-radius: 10px;
+}
+.chat-box::-webkit-scrollbar-thumb:hover {
+    background: #aaaaaa;
+}
+
+/* 📨 Messages */
+.message {
+    margin: 8px 0;
+    padding: 12px 16px;
+    border-radius: 18px;
+    max-width: 75%;   /* Messages can stretch wider now */
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* 👤 User messages */
+.message.user {
+    background: #dcf8c6;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
+
+/* 🤖 Bot messages */
+.message.bot {
+    background: #ffffff;
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* ✍ Input Area */
+.chat-input {
+    display
+}

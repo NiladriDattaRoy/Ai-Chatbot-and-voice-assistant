@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="style.css">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIChatbot</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #chat { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; margin-bottom: 10px; }
+    .user { color: blue; margin: 5px 0; }
+    .bot { color: green; margin: 5px 0; }
+  </style>
+  
+</head>
+<body>
+  <h2>AI chatbot</h2>
+  <div id="chat"></div>
+  <input type="text" id="userInput" placeholder="Type a message..." />
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    const chatBox = document.getElementById("chat");
+    const input = document.getElementById("userInput");
+
+    // Function to display messages
+    function addMessage(sender, text) {
+      const msg = document.createElement("div");
+      msg.className = sender;
+      msg.textContent = `${sender.toUpperCase()}: ${text}`;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Function to speak text
+    function speak(text) {
+      return new Promise(resolve => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "en-IN"; // Indian English voice
+        utterance.onend = resolve;
+        speechSynthesis.speak(utterance);
+      });
+    }
+
+    // Speak news one by one
+    async function speakNews(newsList) {
+      for (const news of newsList) {
+        addMessage("bot", news);
+        await speak(news);
+        await new Promise(r => setTimeout(r, 500)); // Short pause between news
+      }
+    }
+
+    // Send user input to backend
+    async function sendMessage() {
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      addMessage("user", userText);
+      input.value = "";
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_text: userText })
+        });
+
+        const data = await response.json();
+
+        // Print response
+        addMessage("bot", data.response);
+
+        // Speak response/news
+        if (data.speak && Array.isArray(data.speak)) {
+          await speakNews(data.speak);
+        } else if (data.speak) {
+          await speak(data.speak);
+        }
+
+      } catch (error) {
+        console.error("Error:", error);
+        addMessage("bot", "Error: Could not connect to server.");
+      }
+    }
+  </script>
+  <script src="script.js"></script>
+
+</body>
+</html>
